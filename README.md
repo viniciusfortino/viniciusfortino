@@ -4,7 +4,7 @@
 - 📎 My technical blog > [/fortino.dev](http://www.fortino.dev/)
 	 > under construction
   
-  ##
+##
   
  <div>
   <a href="https://github.com/viniciusfortino">
