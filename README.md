@@ -1,8 +1,11 @@
 ### 70% backend developer, 20% frontend developer and 10% coffee 
 
-- 🖥️ working at **Zup**  > **[visit us](https://www.zup.com.br/)**
-- 🪧 My technical blog > [/fortino.dev](http://www.fortino.dev/)
+- 🖥️ Working at **Zup** > [visit us](https://www.zup.com.br/)
+- 📎 My technical blog > [/fortino.dev](http://www.fortino.dev/)
 	 > under construction
+  
+  ##
+  
  <div>
   <a href="https://github.com/viniciusfortino">
   <img height="180em" src="https://github-readme-stats.vercel.app/api?username=viniciusfortino&show_icons=true&theme=dracula&include_all_commits=true&count_private=true"/>
