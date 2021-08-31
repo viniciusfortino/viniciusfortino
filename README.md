@@ -3,7 +3,9 @@
 - 🖥️ Working at **Zup** > [visit us](https://www.zup.com.br/)
 - 📎 My technical blog > [/fortino.dev](http://www.fortino.dev/)
 	 > under construction
-  
+
+- 🥤 My framework to run local and debug AWS Lambda  > [NPM package](https://www.npmjs.com/package/@viniciusfortino/aws-lambda-local-runner)
+	 > under construction 
 ##
   
  <div>
