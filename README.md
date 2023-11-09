@@ -1,6 +1,5 @@
 ### 70% backend developer, 20% frontend developer and 10% coffee 
 
-- 🖥️ Working at **Zup** > [visit us](https://www.zup.com.br/)
 - 📎 My technical blog > [/fortino.dev](http://www.fortino.dev/)
 	 > under construction
 
