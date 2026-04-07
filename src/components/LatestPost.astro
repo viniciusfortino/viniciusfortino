@@ -1,0 +1,145 @@
+---
+import { siteConfig, type Lang } from "../config";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const content = siteConfig.content[lang];
+const mediumHandle = siteConfig.social.medium.split("medium.com/")[1];
+const feedUrl = `https://medium.com/feed/${mediumHandle}`;
+---
+
+<section class="px-8 sm:px-12 md:px-16 lg:px-24 py-16 lg:py-24">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+    <div class="lg:col-span-4">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
+        {content.latestArticle}
+      </h2>
+      <div
+        class="w-[75px] h-[5px] mt-2 rounded-full"
+        style={`background-color: ${siteConfig.accentColor}`}
+      ></div>
+    </div>
+
+    <div class="lg:col-span-8">
+      <!-- Skeleton -->
+      <div id="lp-skeleton" class="animate-pulse flex gap-6">
+        <div class="w-40 h-28 bg-gray-200 rounded-lg shrink-0"></div>
+        <div class="flex-1 space-y-3 py-1">
+          <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+          <div class="h-5 bg-gray-200 rounded w-3/4"></div>
+          <div class="h-4 bg-gray-200 rounded w-full"></div>
+          <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <a
+        id="lp-card"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden group gap-6"
+        style={`--accent-color: ${siteConfig.accentColor}`}
+      >
+        <img
+          id="lp-thumb"
+          src=""
+          alt=""
+          class="w-40 h-28 object-cover rounded-lg shrink-0 bg-gray-100"
+        />
+        <div class="flex flex-col gap-2">
+          <p id="lp-date" class="text-sm text-gray-400 font-mono"></p>
+          <h3
+            id="lp-title"
+            class="text-lg sm:text-xl font-semibold text-gray-800 group-hover:text-[var(--accent-color)] transition-colors leading-snug"
+          ></h3>
+          <p id="lp-excerpt" class="text-sm text-gray-500 line-clamp-2"></p>
+          <span class="text-sm font-medium mt-1" style={`color: ${siteConfig.accentColor}`}>
+            {content.readMore}
+          </span>
+        </div>
+      </a>
+
+      <!-- Error -->
+      <p id="lp-error" class="hidden text-sm text-gray-400 font-mono">
+        Could not load latest article.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ feedUrl }}>
+  const PROXY = "https://corsproxy.io/?url=";
+
+  const skeleton = document.getElementById("lp-skeleton");
+  const card = document.getElementById("lp-card");
+  const errorEl = document.getElementById("lp-error");
+
+  function show(el) {
+    el.classList.remove("hidden");
+    if (el.tagName === "A") el.classList.add("flex");
+  }
+
+  function hide(el) {
+    el.classList.add("hidden");
+    if (el.tagName === "A") el.classList.remove("flex");
+  }
+
+  fetch(`${PROXY}${encodeURIComponent(feedUrl)}`)
+    .then((r) => {
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      return r.text();
+    })
+    .then((xmlText) => {
+      const xml = new DOMParser().parseFromString(xmlText, "text/xml");
+      const items = xml.getElementsByTagName("item");
+      if (!items.length) throw new Error("No items in feed");
+      const item = items[0];
+
+      const title = item.getElementsByTagName("title")[0]?.textContent?.trim() ?? "";
+      const link = item.getElementsByTagName("link")[0]?.nextSibling?.textContent?.trim()
+        ?? item.getElementsByTagName("link")[0]?.textContent?.trim()
+        ?? "#";
+      const pubDate = item.getElementsByTagName("pubDate")[0]?.textContent ?? "";
+      const description = item.getElementsByTagName("description")[0]?.textContent ?? "";
+
+      // Try content:encoded first, then description for image
+      const encoded =
+        item.getElementsByTagNameNS(
+          "http://purl.org/rss/1.0/modules/content/",
+          "encoded"
+        )[0]?.textContent ?? description;
+
+      const imgMatch = encoded.match(/<img[^>]+src="([^"]+)"/);
+      const thumbUrl = imgMatch?.[1] ?? "";
+
+      const excerpt = description.replace(/<[^>]*>/g, "").trim().slice(0, 160);
+      const dateStr = pubDate
+        ? new Date(pubDate).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })
+        : "";
+
+      document.getElementById("lp-thumb").src = thumbUrl;
+      document.getElementById("lp-thumb").alt = title;
+      document.getElementById("lp-title").textContent = title;
+      document.getElementById("lp-date").textContent = dateStr;
+      document.getElementById("lp-excerpt").textContent = excerpt
+        ? excerpt + "…"
+        : "";
+      card.href = link;
+
+      hide(skeleton);
+      show(card);
+    })
+    .catch((err) => {
+      console.error("[LatestPost] Failed to load Medium feed:", err);
+      hide(skeleton);
+      show(errorEl);
+    });
+</script>
