@@ -333,12 +333,13 @@ const cards = [
 
 <script define:vars={{ feedUrl }}>
   // ── Tabs ──────────────────────────────────────────────
-  function initExpertiseTabs() {
+  function initExpertiseTabs(onActiveChange) {
     const cards = document.querySelectorAll(".expertise-card");
 
     function setActive(activeIndex) {
       cards.forEach((card) => card.classList.remove("active"));
       cards[activeIndex].classList.add("active");
+      onActiveChange?.();
     }
 
     cards.forEach((card) => {
@@ -438,8 +439,40 @@ const cards = [
     if (errorEl) errorEl.classList.add("visible");
   }
 
+  // ── Scroll: short label top → center ─────────────────
+  function initScrollShortLabel() {
+    const hero = document.getElementById("hero");
+    if (!hero) return;
+
+    function update() {
+      const cardEls = document.querySelectorAll(".expertise-card");
+      const progress = Math.max(0, Math.min(1, window.scrollY / (hero.offsetHeight * 0.5)));
+
+      cardEls.forEach((card) => {
+        if (card.classList.contains("active")) return;
+        const shortEl = card.querySelector(".card-short");
+        if (!shortEl) return;
+
+        const expandedEl = card.querySelector(".card-expanded");
+        const topPad = expandedEl
+          ? parseFloat(getComputedStyle(expandedEl).paddingTop)
+          : 12;
+
+        const targetMt = (card.offsetHeight - shortEl.offsetHeight) / 2;
+        const topStart = topPad + 26;
+        const mt = topStart + progress * (targetMt - topStart);
+        shortEl.style.marginTop = mt + "px";
+      });
+    }
+
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+    return update;
+  }
+
   function init() {
-    initExpertiseTabs();
+    const updateShortLabel = initScrollShortLabel();
+    initExpertiseTabs(updateShortLabel);
     initArticles();
   }
 
@@ -585,6 +618,7 @@ const cards = [
 
   .expertise-card {
     justify-content: center;
+    align-items: flex-start;
   }
 
   .card-expanded {
