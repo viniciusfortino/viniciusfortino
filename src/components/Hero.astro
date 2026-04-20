@@ -7,11 +7,41 @@ interface Props {
 
 const { lang } = Astro.props;
 const content = siteConfig.content[lang];
+
+const mediumHandle = siteConfig.social.medium.split("medium.com/")[1];
+const feedUrl = `https://medium.com/feed/${mediumHandle}`;
+
+const cards = [
+  {
+    index: 0,
+    short: "AI",
+    label: "Artificial Intelligence",
+    tags: ["ai", "artificial-intelligence", "llm", "machine-learning", "genai", "large-language-models"],
+    from: "#7c3aed",
+    to: "#6d28d9",
+  },
+  {
+    index: 1,
+    short: "Quanta",
+    label: lang === "pt" ? "Computação Quântica" : lang === "es" ? "Computación Cuántica" : "Quantum Computing",
+    tags: ["quantum", "quantum-computing", "quantum-cryptography", "qubits"],
+    from: "#0891b2",
+    to: "#0e7490",
+  },
+  {
+    index: 2,
+    short: "Security",
+    label: lang === "pt" ? "Cibersegurança" : lang === "es" ? "Ciberseguridad" : "Cybersecurity",
+    tags: ["cybersecurity", "security", "zero-trust", "threat-intelligence", "infosec"],
+    from: "#059669",
+    to: "#047857",
+  },
+];
 ---
 
 <div
   id="hero"
-  class="relative isolate overflow-hidden bg-white py-24 md:h-screen"
+  class="relative isolate overflow-hidden bg-white py-24 md:min-h-screen"
   style={`--accent-color: ${siteConfig.accentColor}`}
 >
   <!-- Gradient overlay -->
@@ -136,121 +166,286 @@ const content = siteConfig.content[lang];
       height="100%"
       stroke-width={0}></rect>
   </svg>
-  <div class="h-full mx-auto p-8 sm:p-12 md:p-24 flex items-center">
-    <div>
-      <h2
-        class="text-pretty text-xl sm:text-2xl md:text-5xl font-bold tracking-tight text-gray-700 animate-fade-in"
-      >
-        {content.greeting}
-      </h2>
-      <h1
-        class="mt-6 sm:mt-8 md:mt-10 text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-gray-800 animate-fade-in animation-delay-200"
-      >
-        {content.intro} <span style={{ color: siteConfig.accentColor }}
-          >{siteConfig.name}</span
+
+  <div class="h-full mx-auto p-8 sm:p-12 md:p-24 flex flex-col">
+    <!-- Main text content -->
+    <div class="flex-1 flex items-center">
+      <div>
+        <h2
+          class="text-pretty text-xl sm:text-2xl md:text-5xl font-bold tracking-tight text-gray-700 animate-fade-in"
         >
-      </h1>
-      <p
-        class="mt-4 sm:mt-6 md:mt-8 text-pretty text-base sm:text-lg md:text-xl/8 font-medium text-gray-600 animate-fade-in animation-delay-400"
-      >
-        {content.title}
-      </p>
+          {content.greeting}
+        </h2>
+        <h1
+          class="mt-6 sm:mt-8 md:mt-10 text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-gray-800 animate-fade-in animation-delay-200"
+        >
+          {content.intro} <span style={{ color: siteConfig.accentColor }}
+            >{siteConfig.name}</span
+          >
+        </h1>
+        <p
+          class="mt-4 sm:mt-6 md:mt-8 text-pretty text-base sm:text-lg md:text-xl/8 font-medium text-gray-600 animate-fade-in animation-delay-400"
+        >
+          {content.title}
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom: social icons + expertise cards -->
+    <div class="animate-fade-in animation-delay-600" style="padding-top: 5vh">
+      <!-- Social icons -->
+      <div class="social-bar flex gap-x-4 sm:gap-x-6 md:gap-x-8 text-gray-700">
+        {
+          siteConfig.social?.linkedin && (
+            <a
+              href={siteConfig.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              class="transition-colors duration-300 hover:text-[var(--accent-color)]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
+              >
+                <>
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M8 11v5" />
+                  <path d="M8 8v.01" />
+                  <path d="M12 16v-5" />
+                  <path d="M16 16v-3a2 2 0 1 0 -4 0" />
+                  <path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" />
+                </>
+              </svg>
+            </a>
+          )
+        }
+        {
+          siteConfig.social?.medium && (
+            <a
+              href={siteConfig.social.medium}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Medium"
+              class="transition-colors duration-300 hover:text-[var(--accent-color)]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M8 16v-8l4 5 4-5v8" />
+              </svg>
+            </a>
+          )
+        }
+        {
+          siteConfig.social?.github && (
+            <a
+              href={siteConfig.social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              class="transition-colors duration-300 hover:text-[var(--accent-color)]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
+              >
+                <>
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+                </>
+              </svg>
+            </a>
+          )
+        }
+      </div>
+
+      <!-- Expertise cards -->
+      <div class="expertise-tabs animate-fade-in animation-delay-800" style="margin-top: 10vh" id="expertise-tabs">
+        {
+          cards.map((card) => (
+            <button
+              class={`expertise-card${card.index === 0 ? " active" : ""}`}
+              data-index={card.index}
+              data-tags={card.tags.join(",")}
+              style={`--from: ${card.from}; --to: ${card.to};`}
+              aria-label={card.label}
+            >
+              <span class="card-short">{card.short}</span>
+              <div class="card-expanded">
+                <span class="card-full">{card.label}</span>
+                <div class="card-article">
+                  <span class="article-eyebrow">Latest Article</span>
+                  <div class="article-skeleton">
+                    <div class="skel-thumb"></div>
+                    <div class="skel-text">
+                      <div class="skel-line"></div>
+                      <div class="skel-line"></div>
+                      <div class="skel-line skel-xs"></div>
+                      <div class="skel-line skel-short"></div>
+                    </div>
+                  </div>
+                  <a class="article-link" href="#" target="_blank" rel="noopener noreferrer">
+                    <img class="article-thumb" src="" alt="" />
+                    <div class="article-meta">
+                      <span class="article-date"></span>
+                      <span class="article-title"></span>
+                      <span class="article-excerpt"></span>
+                      <span class="article-read-more">Read on Medium →</span>
+                    </div>
+                  </a>
+                  <span class="article-error">Could not load article.</span>
+                </div>
+              </div>
+            </button>
+          ))
+        }
+      </div>
     </div>
   </div>
-  <div
-    class="absolute bottom-0 left-0 right-0 p-8 sm:p-12 md:p-24 flex gap-x-4 sm:gap-x-6 md:gap-x-8 text-gray-700 animate-fade-in animation-delay-600"
-  >
-    {
-      siteConfig.social?.linkedin && (
-        <a
-          href={siteConfig.social.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="LinkedIn"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M8 11v5" />
-              <path d="M8 8v.01" />
-              <path d="M12 16v-5" />
-              <path d="M16 16v-3a2 2 0 1 0 -4 0" />
-              <path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z" />
-            </>
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.medium && (
-        <a
-          href={siteConfig.social.medium}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Medium"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M8 16v-8l4 5 4-5v8" />
-          </svg>
-        </a>
-      )
-    }
-    {
-      siteConfig.social?.github && (
-        <a
-          href={siteConfig.social.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-          class="transition-colors duration-300 hover:text-[var(--accent-color)]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
-          >
-            <>
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-            </>
-          </svg>
-        </a>
-      )
-    }
-  </div>
 </div>
+
+<script define:vars={{ feedUrl }}>
+  // ── Tabs ──────────────────────────────────────────────
+  function initExpertiseTabs() {
+    const cards = document.querySelectorAll(".expertise-card");
+
+    function setActive(activeIndex) {
+      cards.forEach((card) => card.classList.remove("active"));
+      cards[activeIndex].classList.add("active");
+    }
+
+    cards.forEach((card) => {
+      card.addEventListener("click", () => {
+        const idx = parseInt(card.dataset.index ?? "0", 10);
+        setActive(idx);
+      });
+    });
+  }
+
+  // ── Medium RSS fetch ───────────────────────────────────
+  function initArticles() {
+    const PROXY = "https://corsproxy.io/?url=";
+    const cardEls = document.querySelectorAll(".expertise-card[data-tags]");
+
+    fetch(`${PROXY}${encodeURIComponent(feedUrl)}`)
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.text();
+      })
+      .then((xmlText) => {
+        const xml = new DOMParser().parseFromString(xmlText, "text/xml");
+        const items = Array.from(xml.getElementsByTagName("item"));
+
+        cardEls.forEach((cardEl) => {
+          const tags = (cardEl.dataset.tags ?? "").toLowerCase().split(",");
+
+          const match =
+            items.find((item) => {
+              const cats = Array.from(item.getElementsByTagName("category")).map(
+                (c) => c.textContent?.toLowerCase().trim() ?? ""
+              );
+              return tags.some((tag) => cats.some((cat) => cat.includes(tag)));
+            }) ?? items[0];
+
+          if (!match) {
+            showError(cardEl);
+            return;
+          }
+
+          const title = match.getElementsByTagName("title")[0]?.textContent?.trim() ?? "";
+          const link =
+            match.getElementsByTagName("link")[0]?.nextSibling?.textContent?.trim() ??
+            match.getElementsByTagName("link")[0]?.textContent?.trim() ??
+            "#";
+          const pubDate = match.getElementsByTagName("pubDate")[0]?.textContent ?? "";
+          const description = match.getElementsByTagName("description")[0]?.textContent ?? "";
+          const encoded =
+            match.getElementsByTagNameNS(
+              "http://purl.org/rss/1.0/modules/content/",
+              "encoded"
+            )[0]?.textContent ?? description;
+          const imgMatch = encoded.match(/<img[^>]+src="([^"]+)"/);
+          const thumbUrl = imgMatch?.[1] ?? "";
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = encoded || description;
+          const excerpt = (tempDiv.textContent ?? "").trim().slice(0, 120);
+          const dateStr = pubDate
+            ? new Date(pubDate).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })
+            : "";
+
+          const skeleton = cardEl.querySelector(".article-skeleton");
+          const articleLink = cardEl.querySelector(".article-link");
+          const articleTitle = cardEl.querySelector(".article-title");
+          const articleThumb = cardEl.querySelector(".article-thumb");
+          const articleDate = cardEl.querySelector(".article-date");
+          const articleExcerpt = cardEl.querySelector(".article-excerpt");
+
+          if (skeleton) skeleton.style.display = "none";
+          if (articleTitle) articleTitle.textContent = title;
+          if (articleDate) articleDate.textContent = dateStr;
+          if (articleExcerpt) articleExcerpt.textContent = excerpt ? excerpt + "…" : "";
+          if (articleThumb) {
+            articleThumb.src = thumbUrl;
+            articleThumb.alt = title;
+            if (!thumbUrl) articleThumb.style.display = "none";
+          }
+          if (articleLink) {
+            articleLink.href = link;
+            articleLink.classList.add("loaded");
+          }
+        });
+      })
+      .catch(() => {
+        cardEls.forEach((cardEl) => showError(cardEl));
+      });
+  }
+
+  function showError(cardEl) {
+    const skeleton = cardEl.querySelector(".article-skeleton");
+    const errorEl = cardEl.querySelector(".article-error");
+    if (skeleton) skeleton.style.display = "none";
+    if (errorEl) errorEl.classList.add("visible");
+  }
+
+  function init() {
+    initExpertiseTabs();
+    initArticles();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+  document.addEventListener("astro:page-load", init);
+</script>
 
 <style>
   @keyframes fadeIn {
@@ -279,5 +474,339 @@ const content = siteConfig.content[lang];
 
   .animation-delay-600 {
     animation-delay: 0.6s;
+  }
+
+  .animation-delay-800 {
+    animation-delay: 0.8s;
+  }
+
+  /* ── Social bar ── */
+  .social-bar {
+    width: 100vw;
+    margin-left: -2rem; /* break out of p-8 padding */
+    padding-left: 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .social-bar {
+      margin-left: -3rem;
+      padding-left: 3rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .social-bar {
+      margin-left: -6rem;
+      padding-left: 6rem;
+    }
+  }
+
+  /* ── Expertise cards ── */
+  .expertise-tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    height: 40vh;
+    width: 100vw;
+    margin-left: -2rem; /* break out of p-8 padding */
+  }
+
+  .expertise-card {
+    display: flex;
+    align-items: center;
+    flex: 0 0 60px;
+    height: 100%;
+    border-radius: 14px;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    padding: 0 18px;
+    position: relative;
+    color: rgba(20, 20, 30, 0.82);
+    opacity: 0.82;
+    white-space: nowrap;
+    /* Liquid glass */
+    background: rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow:
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.75),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.04),
+      0 4px 18px rgba(0, 0, 0, 0.08),
+      0 1px 3px rgba(0, 0, 0, 0.05);
+    transition:
+      flex-basis 0.48s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+
+  /* Subtle color tint per card */
+  .expertise-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--from), var(--to));
+    opacity: 0.10;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .expertise-card.active {
+    flex: 1 0 240px;
+    opacity: 1;
+    box-shadow:
+      inset 0 1.5px 0 rgba(255, 255, 255, 0.85),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.04),
+      0 8px 32px rgba(0, 0, 0, 0.13),
+      0 2px 8px rgba(0, 0, 0, 0.07);
+  }
+
+  .expertise-card.active::before {
+    opacity: 0.15;
+  }
+
+  .card-short {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    color: rgba(15, 15, 25, 0.82);
+    flex-shrink: 0;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+  }
+
+  .expertise-card.active .card-short {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .expertise-card {
+    justify-content: center;
+  }
+
+  .card-expanded {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 0.5em 16px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease 0.15s;
+  }
+
+  .expertise-card.active .card-expanded {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .card-full {
+    font-size: 1.38rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: rgba(15, 15, 25, 0.88);
+    white-space: nowrap;
+  }
+
+  .card-article {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .article-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(15, 15, 25, 0.45);
+  }
+
+  @keyframes skeletonPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Skeleton */
+  .article-skeleton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .skel-thumb {
+    width: 180px;
+    height: 137px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: rgba(15, 15, 25, 0.12);
+    animation: skeletonPulse 1.4s ease-in-out infinite;
+  }
+
+  .skel-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding-top: 4px;
+  }
+
+  .skel-line {
+    height: 11px;
+    width: 100%;
+    border-radius: 4px;
+    background: rgba(15, 15, 25, 0.12);
+    animation: skeletonPulse 1.4s ease-in-out infinite;
+  }
+
+  .skel-line.skel-short {
+    width: 45%;
+  }
+
+  .skel-line.skel-xs {
+    width: 70%;
+    height: 7px;
+  }
+
+  /* Article link */
+  .article-link {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-decoration: none;
+    width: 100%;
+  }
+
+  .article-link.loaded {
+    display: flex;
+  }
+
+  .article-thumb {
+    width: 180px;
+    height: 137px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: rgba(15, 15, 25, 0.08);
+  }
+
+  .article-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    align-items: flex-start;
+  }
+
+  .article-title {
+    font-size: 1.65rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: rgba(15, 15, 25, 0.82);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .article-date {
+    font-size: 0.7rem;
+    color: rgba(15, 15, 25, 0.42);
+    font-family: monospace;
+    text-align: left;
+  }
+
+  .article-excerpt {
+    font-size: 0.72rem;
+    line-height: 1.45;
+    color: rgba(15, 15, 25, 0.52);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .article-read-more {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--from);
+    transition: opacity 0.2s ease;
+    align-self: flex-end;
+  }
+
+  .article-link:hover .article-read-more {
+    opacity: 0.75;
+  }
+
+  .article-error {
+    display: none;
+    font-size: 0.68rem;
+    color: rgba(15, 15, 25, 0.40);
+  }
+
+  .article-error.visible {
+    display: block;
+  }
+
+  @media (min-width: 640px) {
+    .expertise-tabs {
+      gap: 10px;
+      margin-left: -3rem; /* break out of sm:p-12 padding */
+    }
+
+    .expertise-card {
+      flex: 0 0 64px;
+    }
+
+    .expertise-card.active {
+      flex: 1 0 260px;
+    }
+
+    .card-short {
+      font-size: 0.75rem;
+    }
+
+    .card-full {
+      font-size: 1rem;
+    }
+
+  }
+
+  @media (min-width: 768px) {
+    .expertise-tabs {
+      gap: 12px;
+      margin-left: -6rem; /* break out of md:p-24 padding */
+    }
+
+    .expertise-card {
+      flex: 0 0 68px;
+      border-radius: 16px;
+    }
+
+    .expertise-card.active {
+      flex: 1 0 280px;
+    }
+
+    .card-expanded {
+      padding: 20px 24px;
+    }
+
+    .card-short {
+      font-size: 0.8rem;
+    }
+
+    .card-full {
+      font-size: 1.05rem;
+    }
+
   }
 </style>

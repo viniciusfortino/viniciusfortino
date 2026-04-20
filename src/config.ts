@@ -7,7 +7,7 @@ export const langMeta: Record<Lang, { label: string; href: string }> = {
 };
 
 export const siteConfig = {
-  name: "Vinicius Fortino",
+  name: "Fortino",
   accentColor: "#1d4ed8",
   social: {
     linkedin: "https://www.linkedin.com/in/vinicius-fortino/",
