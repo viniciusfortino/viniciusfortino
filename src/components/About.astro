@@ -9,7 +9,7 @@ const { lang } = Astro.props;
 const content = siteConfig.content[lang];
 ---
 
-<section id="about" class="p-8 sm:p-12 md:p-16 lg:p-24">
+<section id="about" class="pt-1 sm:pt-1.5 md:pt-2.5 pb-8 sm:pb-12 md:pb-16 lg:pb-24 px-8 sm:px-12 md:px-16 lg:px-24">
   <div>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
       <div class="lg:col-span-4">
@@ -30,17 +30,6 @@ const content = siteConfig.content[lang];
           {content.aboutMe}
         </p>
 
-        <div class="pt-4">
-          <div class="flex flex-wrap gap-3">
-            {
-              content.skills.map((skill) => (
-                <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium hover:bg-gray-200 transition-colors duration-200">
-                  {skill}
-                </span>
-              ))
-            }
-          </div>
-        </div>
       </div>
     </div>
   </div>

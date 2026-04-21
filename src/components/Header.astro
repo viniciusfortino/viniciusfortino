@@ -43,7 +43,7 @@ const allLangs = Object.entries(langMeta) as [Lang, { label: string; href: strin
   </nav>
 </header>
 
-<script>
+<script is:inline>
   window.addEventListener("scroll", () => {
     const header = document.getElementById("header");
     if (window.scrollY > 100) {

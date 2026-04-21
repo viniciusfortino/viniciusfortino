@@ -23,7 +23,7 @@ const feedUrl = `https://medium.com/feed/${mediumHandle}`;
       ></div>
     </div>
 
-    <div class="lg:col-span-8">
+    <div class="lg:col-span-8" id="lp-root" data-feed={feedUrl}>
       <!-- Skeleton -->
       <div id="lp-skeleton" class="animate-pulse flex gap-6">
         <div class="w-40 h-28 bg-gray-200 rounded-lg shrink-0"></div>
@@ -71,8 +71,9 @@ const feedUrl = `https://medium.com/feed/${mediumHandle}`;
   </div>
 </section>
 
-<script define:vars={{ feedUrl }}>
+<script is:inline>
   const PROXY = "https://corsproxy.io/?url=";
+  const feedUrl = document.getElementById("lp-root")?.dataset.feed ?? "";
 
   const skeleton = document.getElementById("lp-skeleton");
   const card = document.getElementById("lp-card");
@@ -100,9 +101,13 @@ const feedUrl = `https://medium.com/feed/${mediumHandle}`;
       const item = items[0];
 
       const title = item.getElementsByTagName("title")[0]?.textContent?.trim() ?? "";
-      const link = item.getElementsByTagName("link")[0]?.nextSibling?.textContent?.trim()
-        ?? item.getElementsByTagName("link")[0]?.textContent?.trim()
-        ?? "#";
+      const linkEl = item.getElementsByTagName("link")[0];
+      const link =
+        linkEl?.nextSibling?.nodeValue?.trim() ||
+        linkEl?.nextSibling?.textContent?.trim() ||
+        linkEl?.textContent?.trim() ||
+        item.getElementsByTagName("guid")[0]?.textContent?.trim() ||
+        "#";
       const pubDate = item.getElementsByTagName("pubDate")[0]?.textContent ?? "";
       const description = item.getElementsByTagName("description")[0]?.textContent ?? "";
 

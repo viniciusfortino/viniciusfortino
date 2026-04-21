@@ -41,7 +41,7 @@ const cards = [
 
 <div
   id="hero"
-  class="relative isolate overflow-hidden bg-white py-24 md:min-h-screen"
+  class="relative isolate overflow-hidden bg-white pt-24 pb-1.5 md:min-h-screen"
   style={`--accent-color: ${siteConfig.accentColor}`}
 >
   <!-- Gradient overlay -->
@@ -287,7 +287,7 @@ const cards = [
       </div>
 
       <!-- Expertise cards -->
-      <div class="expertise-tabs animate-fade-in animation-delay-800" style="margin-top: 10vh" id="expertise-tabs">
+      <div class="expertise-tabs animate-fade-in animation-delay-800" style="margin-top: 10vh" id="expertise-tabs" data-feed={feedUrl}>
         {
           cards.map((card) => (
             <button
@@ -331,7 +331,7 @@ const cards = [
   </div>
 </div>
 
-<script define:vars={{ feedUrl }}>
+<script is:inline>
   // ── Tabs ──────────────────────────────────────────────
   function initExpertiseTabs(onActiveChange) {
     const cards = document.querySelectorAll(".expertise-card");
@@ -353,6 +353,8 @@ const cards = [
   // ── Medium RSS fetch ───────────────────────────────────
   function initArticles() {
     const PROXY = "https://corsproxy.io/?url=";
+    const tabsEl = document.getElementById("expertise-tabs");
+    const feedUrl = tabsEl?.dataset.feed ?? "";
     const cardEls = document.querySelectorAll(".expertise-card[data-tags]");
 
     fetch(`${PROXY}${encodeURIComponent(feedUrl)}`)
@@ -381,9 +383,12 @@ const cards = [
           }
 
           const title = match.getElementsByTagName("title")[0]?.textContent?.trim() ?? "";
+          const linkEl = match.getElementsByTagName("link")[0];
           const link =
-            match.getElementsByTagName("link")[0]?.nextSibling?.textContent?.trim() ??
-            match.getElementsByTagName("link")[0]?.textContent?.trim() ??
+            linkEl?.nextSibling?.nodeValue?.trim() ||
+            linkEl?.nextSibling?.textContent?.trim() ||
+            linkEl?.textContent?.trim() ||
+            match.getElementsByTagName("guid")[0]?.textContent?.trim() ||
             "#";
           const pubDate = match.getElementsByTagName("pubDate")[0]?.textContent ?? "";
           const description = match.getElementsByTagName("description")[0]?.textContent ?? "";
