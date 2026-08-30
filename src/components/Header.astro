@@ -8,6 +8,14 @@ interface Props {
 const { lang } = Astro.props;
 const content = siteConfig.content[lang];
 const allLangs = Object.entries(langMeta) as [Lang, { label: string; href: string }][];
+
+// Só linka a seção que realmente vai ser renderizada — Experience e Education
+// somem da página quando o array do idioma está vazio.
+const navLinks = [
+  { href: "#about", label: content.nav.about, show: true },
+  { href: "#experience", label: content.nav.experience, show: content.experience.length > 0 },
+  { href: "#education", label: content.nav.education, show: content.education.length > 0 },
+].filter((link) => link.show);
 ---
 
 <header
@@ -16,14 +24,16 @@ const allLangs = Object.entries(langMeta) as [Lang, { label: string; href: strin
 >
   <nav class="max-w-7xl mx-auto px-8 py-4">
     <ul class="flex items-center gap-8 justify-center relative">
-      <li class="hidden md:block">
-        <a
-          href="#about"
-          class="text-gray-700 hover:text-black transition-colors font-medium"
-        >
-          {content.nav.about}
-        </a>
-      </li>
+      {navLinks.map((link) => (
+        <li class="hidden md:block">
+          <a
+            href={link.href}
+            class="text-gray-700 hover:text-black transition-colors font-medium"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
       <li class="absolute right-0 flex gap-3">
         {allLangs.map(([key, meta]) => (
           <a

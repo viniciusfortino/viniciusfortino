@@ -7,6 +7,12 @@ interface Props {
 
 const { lang } = Astro.props;
 const content = siteConfig.content[lang];
+
+const navLinks = [
+  { href: "#about", label: content.nav.about, show: true },
+  { href: "#experience", label: content.nav.experience, show: content.experience.length > 0 },
+  { href: "#education", label: content.nav.education, show: content.education.length > 0 },
+].filter((link) => link.show);
 ---
 
 <footer class="relative bg-gray-50 border-t border-gray-200">
@@ -101,11 +107,14 @@ const content = siteConfig.content[lang];
 
       <div class="hidden md:block flex flex-col md:items-end gap-4">
         <nav class="flex gap-x-8">
-          <a
-            href="#about"
-            class="text-sm text-gray-600 hover:text-gray-800 transition-colors"
-            >{content.nav.about}</a
-          >
+          {navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="text-sm text-gray-600 hover:text-gray-800 transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
         <p class="text-sm text-gray-500">
           © {new Date().getFullYear()}

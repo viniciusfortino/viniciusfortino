@@ -3,3 +3,9 @@
 body {
   font-family: 'IBM Plex Mono', monospace;
 }
+
+/* Offset anchor scrolling so the fixed header doesn't cover the section's
+   top content (e.g. clicking "About" in the nav). */
+html {
+  scroll-padding-top: 90px;
+}

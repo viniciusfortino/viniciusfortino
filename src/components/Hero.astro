@@ -22,14 +22,6 @@ const cards = [
   },
   {
     index: 1,
-    short: "Quanta",
-    label: lang === "pt" ? "Computação Quântica" : lang === "es" ? "Computación Cuántica" : "Quantum Computing",
-    tags: ["quantum", "quantum-computing", "quantum-cryptography", "qubits"],
-    from: "#0891b2",
-    to: "#0e7490",
-  },
-  {
-    index: 2,
     short: "Security",
     label: lang === "pt" ? "Cibersegurança" : lang === "es" ? "Ciberseguridad" : "Cybersecurity",
     tags: ["cybersecurity", "security", "zero-trust", "threat-intelligence", "infosec"],
@@ -188,6 +180,11 @@ const cards = [
         >
           {content.title}
         </p>
+        <p
+          class="mt-3 sm:mt-4 max-w-3xl text-pretty text-sm sm:text-base md:text-lg/7 text-gray-500 animate-fade-in animation-delay-600"
+        >
+          {content.shortBio}
+        </p>
       </div>
     </div>
 
@@ -301,7 +298,7 @@ const cards = [
               <div class="card-expanded">
                 <span class="card-full">{card.label}</span>
                 <div class="card-article">
-                  <span class="article-eyebrow">Latest Article</span>
+                  <span class="article-eyebrow">{content.latestArticle}</span>
                   <div class="article-skeleton">
                     <div class="skel-thumb"></div>
                     <div class="skel-text">
@@ -317,7 +314,7 @@ const cards = [
                       <span class="article-date"></span>
                       <span class="article-title"></span>
                       <span class="article-excerpt"></span>
-                      <span class="article-read-more">Read on Medium →</span>
+                      <span class="article-read-more">{content.readMore}</span>
                     </div>
                   </a>
                   <span class="article-error">Could not load article.</span>

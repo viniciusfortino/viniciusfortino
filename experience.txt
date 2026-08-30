@@ -1,0 +1,202 @@
+
+===============================================================
+3. EXPERIENCE — MERCADO LIVRE
+===============================================================
+
+Project Leader
+July 2025 - August 2026
+
+• Led the front-end team (7 people) for Mercado Pago's credit card acquisition platform,
+with multiple entry points across web and mobile, operations in Brazil, Argentina and
+Mexico, and cross-country coordination with teams in Colombia and Uruguay.
+
+• Owned dependency vulnerability management for the platform, with remediation
+prioritized by severity through the corporate SCA pipeline, supplemented by a
+purpose-built Slack alerting service.
+
+• Mapped the business unit's acquisition flows end to end, identifying an undocumented
+critical dependency on a service with no fallback or contingency plan. Led the
+remediation plan and produced architecture documentation adopted as reference by other
+team leaders in the unit.
+
+• Designed the MCP integrations between the acquisition products and the company's
+conversational assistant, exposing proposal status, KYC status and registered address
+lookup.
+
+===============================================================
+4. EXPERIENCE — STONE
+===============================================================
+
+Technical Lead, Identity Platform
+December 2023 - July 2025
+
+• Technical lead for the consolidation of authentication systems across the Stone group
+(12M users), replacing multiple in-house solutions — one per group company — with a
+single platform on Ping Identity (PingFederate, PingDirectory, PingOne). Two teams under
+direct leadership: authentication (8) and authorization (4).
+
+• Strengthened the security posture of the authentication flow: introduced PKCE, opaque
+tokens and token revocation, none of which existed in the previous solution. Implemented
+a CIBA flow for server-initiated authorization with approval on a trusted device via key
+pair.
+
+• Authorization on the critical path of the PIX flow, operating within an allocated
+latency budget inside the scheme's SLA.
+
+• Designed a unified identity model separating the person's identity from the access
+binding, resolving CPF (Brazilian national identifier) collisions across acquired
+companies' databases and across distinct roles held by the same individual (personal
+account holder, accountant, or legal representative of a corporate account).
+
+• Executed the migration in three stages across 12M users: new store in shadow mode,
+lazy provisioning at first login, and bulk backfill. Rollback and circuit switch
+available; no activation required. Completed in three months, within a critical window
+bounded by full deployment freezes.
+
+• Instrumented the platform from a baseline of none: monthly active users per group
+company, request volume and true failure rate, none of which were measured before.
+Identified that the reported failure rate was an artifact of the MFA flow, invalidating
+the baseline used for monitoring.
+
+• Produced migration ADRs and implementation RFCs consumed by other engineering teams,
+plus authentication and authorization libraries adopted by consuming teams.
+
+Stack: Java, Kubernetes, Docker, Ping Identity.
+
+===============================================================
+5. EXPERIENCE — ZUP INNOVATION (two roles)
+===============================================================
+
+--- Technical Lead | February 2022 - December 2023 ---
+
+• Directly led the authorization team of the CIAM platform behind Itaú Unibanco's
+Banking-as-a-Service product, responsible for the production authorization flow of PIX,
+Brazil's instant payment system, at 29M requests per day.
+
+• Designed and built the in-house CIAM platform on AWS Lambda, within a technical
+partnership between Itaú Unibanco and AWS on serverless authentication and authorization.
+Later consolidated the authentication component onto Ping Identity while keeping the
+in-house platform for authorization — a decision driven by vendor maturity and compliance
+posture in a product classified as high regulatory risk.
+
+• Architecture sized for up to 20M authentications per day at a 1.5s SLA, multi-tenant
+with per-account isolation on AWS and RBAC (global roles inherited by all tenants, plus
+tenant-specific roles). In production for Itaú, PIX Itaú and two external partners,
+compliant with LGPD.
+
+• Adapted the serverless architecture to critical-path latency requirements: runtime
+migration to Node to reduce cold starts, elevated concurrency limits through the AWS
+partnership, and secrets management via AWS Secrets Manager.
+
+• Integrated federated SSO (SAML 2.0) and automated provisioning (SCIM) with Active
+Directory.
+
+• Presented and defended the identity architecture before the bank's executive
+management, in a product subject to the institution's SAST/DAST and API security
+controls.
+
+• Technical leadership of 26 people across two multidisciplinary teams (backend,
+frontend, QA, SRE).
+
+Stack: Java, Python, AWS Lambda, Kubernetes, Docker, Ping Identity.
+
+--- Senior Specialist Software Engineer | March 2021 - February 2022 ---
+
+• Planned and implemented the multi-tenant architecture of StackSpot (Zup–Itaú joint
+venture), responsible for provisioning a hybrid, segmented environment with per-tenant
+traffic and data segregation. Its authentication and authorization component became the
+Banking-as-a-Service CIAM platform.
+
+• Organically took on technical leadership of the team.
+
+Stack: Python, Java, Docker, Kubernetes, Keycloak.
+
+===============================================================
+5.1 EXPERIENCE — AME DIGITAL
+===============================================================
+
+Senior Software Engineer
+November 2019 - March 2021
+Americanas Group
+
+• Contributed to the architecture definition and implementation of the OAuth 2.0
+authentication protocol.
+
+• Maintained and evolved the partner integration platform using Java and WebFlux.
+
+===============================================================
+5.2 EXPERIENCE — BRASIL PLURAL
+===============================================================
+
+Software Engineer
+September 2018 - November 2019
+
+• Design and implementation of the group's service-oriented architecture (Banco
+Brasil Plural and Genial Investimentos), primarily in C#.
+
+===============================================================
+5.3 EXPERIENCE — EY
+===============================================================
+
+IT Risk Consultant
+September 2015 - March 2018
+
+• IT risk engagements across financial services, agribusiness, government bodies
+and healthcare.
+
+• Presented findings and recommendations directly to clients; worked as a
+full-stack developer using C#, Java and JavaScript.
+
+• Identified the absence of source control across the firm's software projects and
+implemented a version control system from the ground up, from initial discovery
+through to establishing it as company standard.
+
+===============================================================
+5.4 EXPERIENCE — DESENVOLVE.CO
+===============================================================
+
+Co-founder / Developer
+December 2013 - August 2015
+
+• Founded and ran a software development firm, responsible for client acquisition,
+stakeholder negotiation and the full delivery cycle from kick-off to handover.
+Clients ranged from small local businesses to FIFA and Santander.
+
+===============================================================
+5.5 EXPERIENCE — RIOJUNIOR
+===============================================================
+
+Management Advisor
+August 2013 - December 2013
+Federation of Junior Enterprises of the State of Rio de Janeiro
+
+• Worked in tactical-operational control, monitoring and strategic analysis, and
+in facilitating knowledge management.
+
+===============================================================
+5.6 EXPERIENCE — GAMA JÚNIOR
+===============================================================
+
+Quality Consultant
+January 2013 - December 2013
+Multidisciplinary junior enterprise
+
+• Responsible for controlling and assuring the quality of services delivered,
+applying and enforcing the use of quality tools.
+
+===============================================================
+6. SKILLS
+===============================================================
+
+Top three (these show as featured on the profile):
+
+1. Identity and Access Management (IAM)
+2. OAuth 2.0
+3. OpenID Connect
+
+Then: SAML, SCIM, FIDO2/WebAuthn, Multi-Factor Authentication, RBAC, Ping Identity,
+Keycloak, Application Security, DevSecOps, AWS, Kubernetes, Java, Python, Multi-tenant
+Architecture, Technical Leadership
+
+Note: LinkedIn skills are language-independent — they are the same list on both the
+Portuguese and English versions of the profile.
