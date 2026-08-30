@@ -13,55 +13,50 @@ const hasEducation = education && education.length > 0;
 
 {
   hasEducation && (
-    <section id="education" class="p-8 sm:p-12 md:p-16 lg:p-24">
-      <div>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          <div class="lg:col-span-5">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
-              {content.sections.education}
-            </h2>
-            <div
-              class="w-[75px] h-[5px] mt-2 rounded-full"
-              style={`background-color: ${siteConfig.accentColor}`}
-            />
-          </div>
+    <section id="education" class="pt-8 sm:pt-12 md:pt-16 lg:pt-24 pl-8 sm:pl-12 md:pl-0 pr-8 sm:pr-12 md:pr-16 lg:pr-24 pb-8 sm:pb-12 md:pb-16 lg:pb-24">
+      <!-- Mobile only: the fixed sidebar menu is the heading from md up. -->
+      <div class="md:hidden mb-8">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900">
+          {content.sections.education}
+        </h2>
+        <div
+          class="w-[75px] h-[5px] mt-2 rounded-full"
+          style={`background-color: ${siteConfig.accentColor}`}
+        />
+      </div>
 
-          <div class="lg:col-span-7">
-            <div class="space-y-8">
-              {education.map((edu) => (
-                <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6 hover:shadow-md transition-shadow duration-300">
-                  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
-                    <div>
-                      <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
-                        {edu.degree}
-                      </h3>
-                      <p
-                        class="text-base sm:text-lg"
-                        style={`color: ${siteConfig.accentColor}`}
-                      >
-                        {edu.school}
-                      </p>
-                    </div>
-                    <span class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-0">
-                      {edu.dateRange}
-                    </span>
-                  </div>
-
-                  <ul class="space-y-2">
-                    {edu.achievements.map((achievement) => (
-                      <li class="flex items-start">
-                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0" />
-                        <span class="text-sm sm:text-base text-gray-600">
-                          {achievement}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+      <div class="space-y-8">
+        {education.map((edu) => (
+          <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6 hover:shadow-md transition-shadow duration-300">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
+              <div>
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
+                  {edu.degree}
+                </h3>
+                <p
+                  class="text-base sm:text-lg"
+                  style={`color: ${siteConfig.accentColor}`}
+                >
+                  {edu.school}
+                </p>
+              </div>
+              <span class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-0">
+                {edu.dateRange}
+              </span>
             </div>
+
+            <ul class="space-y-2">
+              {edu.achievements.map((achievement) => (
+                <li class="flex items-start">
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0" />
+                  <span class="text-sm sm:text-base text-gray-600">
+                    {achievement}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        ))}
       </div>
     </section>
   )

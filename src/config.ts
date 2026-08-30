@@ -19,7 +19,6 @@ export const siteConfig = {
       title: "Security and identity engineering for financial institutions",
       description:
         "Software engineer focused on security — over a decade building identity and access systems (IAM/CIAM) for financial institutions.",
-      greeting: "Hello! 👋",
       intro: "I'm",
       shortBio:
         "Software engineer focused on security, with over a decade building identity and access systems for financial institutions. I led PIX authorization at Itaú Unibanco and the authentication unification across the Stone group, for 12 million users. Currently an MSc candidate in Cyber Security at the University of London.",
@@ -163,8 +162,8 @@ export const siteConfig = {
           achievements: [],
         },
       ],
-      nav: { about: "About", experience: "Experience", education: "Education" },
-      sections: { experience: "Experience", education: "Education", projects: "Projects" },
+      nav: { about: "About", experience: "Experience", education: "Education", articles: "Articles" },
+      sections: { hello: "Hello", experience: "Experience", education: "Education", articles: "Articles", projects: "Projects" },
       footer: { rights: "All rights reserved." },
       latestArticle: "Latest Article",
       readMore: "Read on Medium →",
@@ -173,7 +172,6 @@ export const siteConfig = {
       title: "Engenharia de segurança e identidade para instituições financeiras",
       description:
         "Engenheiro de software focado em segurança — mais de uma década construindo sistemas de identidade e acesso (IAM/CIAM) para instituições financeiras.",
-      greeting: "Olá! 👋",
       intro: "Sou",
       shortBio:
         "Engenheiro de software focado em segurança, com mais de uma década construindo sistemas de identidade e acesso para instituições financeiras. Liderei a autorização do PIX no Itaú Unibanco e a unificação da autenticação do grupo Stone, para 12 milhões de usuários. Atualmente mestrando em Cyber Security pela University of London.",
@@ -317,8 +315,8 @@ export const siteConfig = {
           achievements: [],
         },
       ],
-      nav: { about: "Sobre", experience: "Experiência", education: "Formação" },
-      sections: { experience: "Experiência", education: "Formação", projects: "Projetos" },
+      nav: { about: "Sobre", experience: "Experiência", education: "Formação", articles: "Artigos" },
+      sections: { hello: "Olá", experience: "Experiência", education: "Formação", articles: "Artigos", projects: "Projetos" },
       footer: { rights: "Todos os direitos reservados." },
       latestArticle: "Último Artigo",
       readMore: "Ler no Medium →",
@@ -327,7 +325,6 @@ export const siteConfig = {
       title: "Ingeniería de seguridad e identidad para instituciones financieras",
       description:
         "Ingeniero de software enfocado en seguridad — más de una década construyendo sistemas de identidad y acceso (IAM/CIAM) para instituciones financieras.",
-      greeting: "¡Hola! 👋",
       intro: "Soy",
       shortBio:
         "Ingeniero de software enfocado en seguridad, con más de una década construyendo sistemas de identidad y acceso para instituciones financieras. Lideré la autorización de PIX en Itaú Unibanco y la unificación de la autenticación del grupo Stone, para 12 millones de usuarios. Actualmente candidato a MSc en Cyber Security por la University of London.",
@@ -471,8 +468,8 @@ export const siteConfig = {
           achievements: [],
         },
       ],
-      nav: { about: "Sobre", experience: "Experiencia", education: "Formación" },
-      sections: { experience: "Experiencia", education: "Formación", projects: "Proyectos" },
+      nav: { about: "Sobre", experience: "Experiencia", education: "Formación", articles: "Artículos" },
+      sections: { hello: "Hola", experience: "Experiencia", education: "Formación", articles: "Artículos", projects: "Proyectos" },
       footer: { rights: "Todos los derechos reservados." },
       latestArticle: "Último Artículo",
       readMore: "Leer en Medium →",

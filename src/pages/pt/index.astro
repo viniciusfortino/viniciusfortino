@@ -30,13 +30,15 @@ const content = siteConfig.content[lang];
   </head>
   <body>
     <Header lang={lang} />
-    <section>
-      <Hero lang={lang} />
+    <Hero lang={lang} />
+    <!-- Only the reading content clears the fixed menu; the hero and footer
+         run full width so the menu reads as an overlay on top of them. -->
+    <div class="md:pl-[min(30vw,440px)]">
       <About lang={lang} />
       <Projects lang={lang} />
       <Experience lang={lang} />
       <Education lang={lang} />
-    </section>
+    </div>
     <Footer lang={lang} />
   </body>
 </html>

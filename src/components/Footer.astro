@@ -9,13 +9,14 @@ const { lang } = Astro.props;
 const content = siteConfig.content[lang];
 
 const navLinks = [
+  { href: "#articles", label: content.nav.articles, show: true },
   { href: "#about", label: content.nav.about, show: true },
   { href: "#experience", label: content.nav.experience, show: content.experience.length > 0 },
   { href: "#education", label: content.nav.education, show: content.education.length > 0 },
 ].filter((link) => link.show);
 ---
 
-<footer class="relative bg-gray-50 border-t border-gray-200">
+<footer class="relative bg-gray-50 border-t border-gray-200 md:pl-[min(30vw,440px)]">
   <div class="mx-auto max-w-6xl px-6 py-12 lg:px-8">
     <div
       class="flex flex-col md:flex-row md:items-center md:justify-between gap-8"

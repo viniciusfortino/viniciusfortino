@@ -159,17 +159,12 @@ const cards = [
       stroke-width={0}></rect>
   </svg>
 
-  <div class="h-full mx-auto p-8 sm:p-12 md:p-24 flex flex-col">
+  <div class="h-full mx-auto p-8 sm:p-12 md:p-24 md:pl-[min(30vw,440px)] flex flex-col">
     <!-- Main text content -->
     <div class="flex-1 flex items-center">
       <div>
-        <h2
-          class="text-pretty text-xl sm:text-2xl md:text-5xl font-bold tracking-tight text-gray-700 animate-fade-in"
-        >
-          {content.greeting}
-        </h2>
         <h1
-          class="mt-6 sm:mt-8 md:mt-10 text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-gray-800 animate-fade-in animation-delay-200"
+          class="text-pretty text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-gray-800 animate-fade-in"
         >
           {content.intro} <span style={{ color: siteConfig.accentColor }}
             >{siteConfig.name}</span
@@ -284,7 +279,7 @@ const cards = [
       </div>
 
       <!-- Expertise cards -->
-      <div class="expertise-tabs animate-fade-in animation-delay-800" style="margin-top: 10vh" id="expertise-tabs" data-feed={feedUrl}>
+      <div class="expertise-tabs animate-fade-in animation-delay-800" style="margin-top: 10vh" id="articles" data-feed={feedUrl}>
         {
           cards.map((card) => (
             <button
@@ -350,7 +345,7 @@ const cards = [
   // ── Medium RSS fetch ───────────────────────────────────
   function initArticles() {
     const PROXY = "https://corsproxy.io/?url=";
-    const tabsEl = document.getElementById("expertise-tabs");
+    const tabsEl = document.getElementById("articles");
     const feedUrl = tabsEl?.dataset.feed ?? "";
     const cardEls = document.querySelectorAll(".expertise-card[data-tags]");
 
@@ -531,6 +526,7 @@ const cards = [
 
   @media (min-width: 768px) {
     .social-bar {
+      width: calc(100vw - min(30vw, 440px)); /* matches the fixed left sidebar width */
       margin-left: -6rem;
       padding-left: 6rem;
     }
@@ -820,7 +816,9 @@ const cards = [
   @media (min-width: 768px) {
     .expertise-tabs {
       gap: 12px;
-      margin-left: -6rem; /* break out of md:p-24 padding */
+      width: calc(100vw - min(30vw, 440px)); /* matches the fixed left sidebar width */
+      margin-left: 0; /* starts flush with the sidebar — the parent's own
+                          padding-left already lands it there, nothing to cancel */
     }
 
     .expertise-card {

@@ -9,33 +9,67 @@ const { lang } = Astro.props;
 const content = siteConfig.content[lang];
 const allLangs = Object.entries(langMeta) as [Lang, { label: string; href: string }][];
 
-// Só linka a seção que realmente vai ser renderizada — Experience e Education
-// somem da página quando o array do idioma está vazio.
+// These are the section titles themselves — the sections no longer render their
+// own heading, this menu is it. Only list a section that actually renders.
 const navLinks = [
-  { href: "#about", label: content.nav.about, show: true },
-  { href: "#experience", label: content.nav.experience, show: content.experience.length > 0 },
-  { href: "#education", label: content.nav.education, show: content.education.length > 0 },
+  { href: "#hero", label: content.sections.hello, show: true },
+  { href: "#articles", label: content.sections.articles, show: true },
+  { href: "#about", label: content.aboutHeading, show: true },
+  { href: "#experience", label: content.sections.experience, show: content.experience.length > 0 },
+  { href: "#education", label: content.sections.education, show: content.education.length > 0 },
 ].filter((link) => link.show);
 ---
 
+<!-- Desktop: the section titles, as a fixed menu that slides so the current
+     section's title stays on the reading line. -->
 <header
-  id="header"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+  id="header-desktop"
+  class="hidden md:flex md:flex-col fixed inset-y-0 left-0 z-50 w-[min(30vw,440px)]"
+  style={`--accent-color: ${siteConfig.accentColor}`}
 >
-  <nav class="max-w-7xl mx-auto px-8 py-4">
-    <ul class="flex items-center gap-8 justify-center relative">
+  <!-- flex-1 + min-h-0 reserves real space for the language switcher below and
+       lets overflow:hidden actually clip the sliding list above it, however
+       many items the menu ends up holding. -->
+  <nav class="menu-viewport flex-1 min-h-0">
+    <ul class="menu-list" id="menu-list">
       {navLinks.map((link) => (
-        <li class="hidden md:block">
-          <a
-            href={link.href}
-            class="text-gray-700 hover:text-black transition-colors font-medium"
-          >
+        <li class="menu-item">
+          <a href={link.href} class="menu-link" data-menu-link>
             {link.label}
           </a>
+          <span class="menu-accent" aria-hidden="true"></span>
         </li>
       ))}
-      <li class="absolute right-0 flex gap-3">
-        {allLangs.map(([key, meta]) => (
+    </ul>
+  </nav>
+
+  <nav class="flex gap-3 px-10 py-10">
+    {allLangs.map(([key, meta]) => (
+      <a
+        href={meta.href}
+        class={`text-sm font-mono uppercase tracking-widest transition-colors ${
+          key === lang
+            ? "text-gray-800 font-semibold"
+            : "text-gray-400 hover:text-gray-800"
+        }`}
+        aria-current={key === lang ? "page" : undefined}
+      >
+        {meta.label}
+      </a>
+    ))}
+  </nav>
+</header>
+
+<!-- Mobile: compact top bar with just the language switcher — the section
+     titles render inline on small screens instead (see the section components). -->
+<header
+  id="header-mobile"
+  class="md:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+>
+  <nav class="px-8 py-4">
+    <ul class="flex items-center justify-end gap-3">
+      {allLangs.map(([key, meta]) => (
+        <li>
           <a
             href={meta.href}
             class={`text-sm font-mono uppercase tracking-widest transition-colors ${
@@ -47,25 +81,176 @@ const navLinks = [
           >
             {meta.label}
           </a>
-        ))}
-      </li>
+        </li>
+      ))}
     </ul>
   </nav>
 </header>
 
 <script is:inline>
-  window.addEventListener("scroll", () => {
-    const header = document.getElementById("header");
-    if (window.scrollY > 100) {
-      header?.classList.add("bg-white/80", "backdrop-blur-sm");
-    } else {
-      header?.classList.remove("bg-white/80", "backdrop-blur-sm");
+  function initMobileHeaderBackdrop() {
+    window.addEventListener("scroll", () => {
+      const header = document.getElementById("header-mobile");
+      if (window.scrollY > 100) {
+        header?.classList.add("bg-white/80", "backdrop-blur-sm");
+      } else {
+        header?.classList.remove("bg-white/80", "backdrop-blur-sm");
+      }
+    });
+  }
+
+  // The menu slides so the current section's title sits on the reading line.
+  function initSectionMenu() {
+    const list = document.getElementById("menu-list");
+    const links = Array.from(document.querySelectorAll("[data-menu-link]"));
+    if (!list || links.length === 0) return;
+
+    const items = Array.from(list.children);
+    const targets = links
+      .map((link) => {
+        const id = link.getAttribute("href")?.slice(1);
+        const el = id ? document.getElementById(id) : null;
+        return el ? { link, el } : null;
+      })
+      .filter((entry) => entry !== null);
+
+    if (targets.length === 0) return;
+
+    function update() {
+      const readingLine = window.scrollY + window.innerHeight * 0.35;
+      let activeIndex = 0;
+
+      targets.forEach((target, index) => {
+        const top = target.el.getBoundingClientRect().top + window.scrollY;
+        if (top <= readingLine) activeIndex = index;
+      });
+
+      // The last section can be shorter than the viewport, in which case its
+      // top never crosses the reading line — pin it once we hit the bottom.
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
+      if (atBottom) activeIndex = targets.length - 1;
+
+      targets.forEach((target, index) => {
+        const isActive = index === activeIndex;
+        target.link.classList.toggle("is-active", isActive);
+        if (isActive) {
+          target.link.setAttribute("aria-current", "true");
+        } else {
+          target.link.removeAttribute("aria-current");
+        }
+      });
+
+      // Every item is the same height whether or not it is the active one, so
+      // this measurement stays correct even while the active title's font-size
+      // is still animating.
+      const itemHeight = items[0].getBoundingClientRect().height;
+      const gap = parseFloat(getComputedStyle(list).rowGap) || 0;
+      const centerOfActive = activeIndex * (itemHeight + gap) + itemHeight / 2;
+      const anchor = window.innerHeight * 0.4;
+
+      list.style.transform = `translateY(${anchor - centerOfActive}px)`;
     }
-  });
+
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    update();
+  }
+
+  function init() {
+    initMobileHeaderBackdrop();
+    initSectionMenu();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+  document.addEventListener("astro:page-load", init);
 </script>
 
 <style>
   html {
     scroll-behavior: smooth;
+  }
+
+  .menu-viewport {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .menu-list {
+    /* Longest title is 11 monospace characters ("Experiência"), and IBM Plex
+       Mono advances 0.6em per character — so the title can be as large as the
+       column width divided by ~6.6, capped at the original heading's text-7xl.
+       Recalculate this if the sidebar's w-[min(30vw,440px)] changes again. */
+    --title-size: min(4.5rem, calc(4.55vw - 9.7px));
+
+    position: absolute;
+    top: 0;
+    left: 2rem;
+    right: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  /* Constant height, active or not: the title's font-size must never move the
+     items, or the slide would land in the wrong place while it animates. The
+     active title simply grows inside its fixed box. */
+  .menu-item {
+    height: calc(var(--title-size) * 1.15 + 13px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .menu-link {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.1;
+    font-weight: 500;
+    color: #9ca3af;
+    white-space: nowrap;
+    transition:
+      font-size 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.3s ease;
+  }
+
+  .menu-link:hover {
+    color: #4b5563;
+  }
+
+  /* Same weight, colour and scale as the section <h2> this replaced. */
+  .menu-link.is-active {
+    font-size: var(--title-size);
+    font-weight: 700;
+    color: #111827;
+  }
+
+  /* The accent bar that used to sit under each section heading — same 75x5px. */
+  .menu-accent {
+    display: block;
+    height: 5px;
+    width: 0;
+    margin-top: 0;
+    border-radius: 9999px;
+    background-color: var(--accent-color);
+    transition:
+      width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+      margin-top 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .menu-item:has(.is-active) .menu-accent {
+    width: 75px;
+    margin-top: 0.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-list,
+    .menu-link,
+    .menu-accent {
+      transition: none;
+    }
   }
 </style>
