@@ -8,6 +8,7 @@ import Education from "../components/Education.astro";
 import Footer from "../components/Footer.astro";
 import { siteConfig } from "../config";
 import "../styles/global.css";
+import Analytics from "@vercel/analytics/astro";
 
 const lang = "en";
 const content = siteConfig.content[lang];
@@ -40,5 +41,6 @@ const content = siteConfig.content[lang];
       <Education lang={lang} />
     </div>
     <Footer lang={lang} />
+    <Analytics />
   </body>
 </html>
